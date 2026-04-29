@@ -1,0 +1,159 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: center;
+}
+
+
+:root {
+    --primary-red: #f00000;
+    --primary-grey: #222224;
+    --primary-light-grey: #f0f0f0;
+}
+
+.pokemon-card {
+    background-color: var(--primary-light-grey);
+    border: 1px solid var(--primary-grey);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    text-transform: capitalize;
+    transition: all 0.3s ease-in-out;
+}
+
+.pokemon-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+.pokemon-card img {
+    width: 96px;
+    height: 96px;
+}
+
+#filter-and-sort {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 10px;
+    gap: 10px;
+}
+
+#iconsource {
+    font-style: italic;
+    padding-top: 10px;
+    font-weight: 300;
+}
+
+#loadMoreContainer {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+h1 {
+    text-align: center;
+    padding-top: 10px;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: var(--primary-light-grey);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    text-transform: capitalize;
+    position: relative;
+}
+
+.modal img {
+    width: 200px;
+    height: 200px;
+}
+
+.modal h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.modal p {
+    margin: 0.25rem 0;
+    color: var(--primary-grey);
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.back-modal {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.next-modal {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#modalStats {
+    white-space: pre-line;
+}

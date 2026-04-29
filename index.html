@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Pokedex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" 
+          rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="images/pokeball.ico" type="image/x-icon">
+</head>
+<body>
+    <h1 id="website-title">POKEDEX</h1>
+    <div id="filter-and-sort">
+        <form id="pokemonFilter">
+            <input type="text" id="pokemonName" />
+        </form>
+        <select id="sortSelect">
+            <option value="id-asc">ID: Low to High</option>
+            <option value="id-desc">ID: High to Low</option>
+            <option value="name-asc">Name: A-Z</option>
+            <option value="name-desc">Name: Z-A</option>
+        </select>
+    </div>
+    <div id="root"></div>
+    <div id="loadMoreContainer">
+        <button id="loadMore">Load More</button>
+    </div>
+    
+
+    <p id="iconsource">Pokemon go play game Icon by Mohammad Ali on <a href="https://icon-icons.com/authors/348-mohammad-ali">Icon-Icons.com</a></p>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">X</button>
+            <img id="modalImg" src="" alt="">
+            <h2 id="modalName"></h2>
+            <p id="modalId"></p>
+            <p id="modalTypes"></p>
+            <p id="modalHeight"></p>
+            <p id="modalWeight"></p>
+            <p id="modalStats"></p>
+            <p id="modalAbilities"></p>
+            <p id="modalWeaknesses"></p>
+            <button class="back-modal" id="backModal">Back</button>
+            <button class="next-modal" id="nextModal">Next</button>
+        </div>
+    </div>
+    <script src="js/main.js" defer></script>
+</body>
+</html>
