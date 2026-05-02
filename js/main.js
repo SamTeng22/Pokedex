@@ -27,6 +27,26 @@ const typeChart = {
     dark: { weaknesses: ["fighting", "dark", "fairy"]},
     fairy: { weaknesses: ["poison", "steel", "fire"]},
 };
+const colorChart = {
+    normal: "#a4acaf" ,
+    fighting: "#d56723" ,
+    flying: "linear-gradient(to bottom, #3dc7ef, #bdb9b8)",
+    poison: "#b97fc9",
+    ground: "linear-gradient(to bottom, #f7de3f, #ab9842)",
+    rock: "#a38c21",
+    bug: "#729f3f",
+    ghost: "#7b62a3",
+    steel: "#9eb7b8",
+    fire: "#fd7d24",
+    water: "#4592c4",
+    grass: "#9bcc50",
+    electric: "#eed535",
+    psychic: "#f366b9",
+    ice: "#51c4e7",
+    dragon: "linear-gradient(to bottom, #53a4cf, #f16e57)",
+    dark: "#707070",
+    fairy: "#fdb9e9",
+};
 
 const fetchAllPokemon = async() => {
     const response = await fetch(`${API_URL}?limit=100000`);
@@ -48,15 +68,18 @@ const applyFilters = () => {
     const query = document.getElementById("pokemonName").value.toLowerCase();
     const sort = document.getElementById("sortSelect").value;
 
+    const getId = (p) => parseInt(p.url.split("/").filter(Boolean).pop());
+
     let result = [...allPokemon];
 
     if(query) {
+        console.log(`qury: ${query}`);
         result = result.filter((p) =>
-            p.name.includes(query) || String(p.id).includes(query)
+            p.name.includes(query) || String(getId(p)).includes(query)
         );
     }
 
-    const getId = (p) => parseInt(p.url.split("/").filter(Boolean).pop());
+    
 
     if(sort=='name-asc') result.sort((a,b) => a.name.localeCompare(b.name));
     if(sort=='name-desc') result.sort((a,b) => b.name.localeCompare(a.name));
@@ -73,14 +96,19 @@ const applyFilters = () => {
 const renderPokemons = (pokemons) => {
     pokemons.forEach((pokemon) => {
         const card = document.createElement("div");
-        card.classList.add("pokemon-card");
+        card.classList.add("pokemon-card", "rounded-lg", "p-4", "text-start", "capitalize", "border", "transition-all", "duration-300", "ease-in-out", "hover:-translate-y-2.5", "hover:shadow-xl", "hover:cursor-pointer");
         card.addEventListener("click", () => openModal(pokemon))
         const paddedId = String(pokemon.id).padStart(3,"0");
         console.log(paddedId);
+        const typeHTML = pokemon.types.map((t) => {
+            const color = colorChart[t.type.name];
+            return `<span class="px-2 py-1 rounded text-white text-xs font-bold" style="background:${color}">${t.type.name}</span>`;
+        }).join("");
         card.innerHTML = `
-            <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${paddedId}.png" alt="${pokemon.name}" />
-            <h3>#${pokemon.id} ${pokemon.name}</h3>
-            <p>${pokemon.types.map((t) => t.type.name).join(", ")}</p>
+            <img class="w-full h-auto" src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${paddedId}.png" alt="${pokemon.name}"  onerror="this.outerHTML='<div class=&quot;w-full h-48 flex items-center justify-center bg-gray-200 rounded text-gray-500 font-bold&quot;>No Image</div>'"/>
+            <p class="text-[#919191] font-bold text-[80%] pt-0.5">#${paddedId}</p>
+            <h3 class="font-bold text-xl mt-2">${pokemon.name}</h3>
+            <p><strong>Types:</strong> <div class="flex gap-2 mt-1 justify-start">${typeHTML}</div></p>
         `;
         root.appendChild(card);
     });
@@ -122,20 +150,29 @@ const openModal = (pokemon) => {
     currentPokemon = pokemon;
     const paddedId = String(pokemon.id).padStart(3, "0");
     const weaknesses = getWeaknesses(pokemon.types);
+    const typeHTML = pokemon.types.map((t) => {
+        const color = colorChart[t.type.name];
+        return `<span class="px-2 py-1 rounded text-white text-xs font-bold" style="background:${color}">${t.type.name}</span>`;
+    }).join("");
+    const weaknessHTML =weaknesses.map((t) => {
+        const color = colorChart[t];
+        return `<span class="px-2 py-1 rounded text-white text-xs font-bold" style="background:${color}">${t}</span>`;
+    }).join("");
     document.getElementById("modalImg").src = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${paddedId}.png`;
     document.getElementById("modalName").textContent = `#${pokemon.id} ${pokemon.name}`;
-    document.getElementById("modalTypes").innerHTML = `<strong>Types:</strong> ${pokemon.types.map((t) => t.type.name).join(", ")}`;
+    document.getElementById("modalTypes").innerHTML = `<strong>Types:</strong> <div class="flex gap-2 mt-1 justify-center">${typeHTML}</div>`;
     document.getElementById("modalHeight").innerHTML = `<strong>Height:</strong> ${pokemon.height / 10}m`;
     document.getElementById("modalWeight").innerHTML = `<strong>Weight:</strong> ${pokemon.weight / 10}kg`;
-    document.getElementById("modalStats").innerHTML = `<strong>Stats:</strong>\n${pokemon.stats.map((a) => `${a.stat.name}: ${a.base_stat}`).join("\n")}`;
+    document.getElementById("modalStats").innerHTML = `<strong>Stats:</strong><br>${pokemon.stats.map((a) => `<span class="font-semibold">${a.stat.name}:</span> ${a.base_stat}`).join("<br>")}`;
     document.getElementById("modalAbilities").innerHTML = `<strong>Abilities:</strong> ${pokemon.abilities.map((a) => a.ability.name).join(", ")}`;
-    document.getElementById("modalWeaknesses").innerHTML = `<strong>Weaknesses:</strong> ${weaknesses.join(", ")}`;
-    document.getElementById("modalOverlay").classList.add("active");
+    document.getElementById("modalWeaknesses").innerHTML = `<strong>Weaknesses:</strong> <div class="flex flex-wrap gap-2 mt-1 justify-center">${weaknessHTML}</div>`;
+    document.getElementById("modalOverlay").classList.remove("hidden");
+    document.getElementById("modalOverlay").classList.add("flex");
 };
 
 const closeModal = () => {
-    document.getElementById("modalOverlay").classList.remove("active");
-};
+    document.getElementById("modalOverlay").classList.add("hidden");
+    document.getElementById("modalOverlay").classList.remove("flex");};
 
 const changeModal = async (pokemon, direction) => {
     const newPokemonId = direction == 'back' ? pokemon.id -1 : pokemon.id + 1;
@@ -146,7 +183,10 @@ const changeModal = async (pokemon, direction) => {
 init();
 
 document.getElementById("loadMore").addEventListener("click", loadMore);
-document.getElementById("pokemonName").addEventListener("input", applyFilters);
+document.getElementById("pokemonFilter").addEventListener("submit", (e) => {
+    e.preventDefault();
+    applyFilters();
+});
 document.getElementById("sortSelect").addEventListener("change", applyFilters);
 document.getElementById("modalClose").addEventListener("click", closeModal);
 document.getElementById("backModal").addEventListener("click", () =>  changeModal(currentPokemon, 'back'));

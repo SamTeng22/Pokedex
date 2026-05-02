@@ -8,43 +8,54 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" 
           rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="./dist/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <link rel="shortcut icon" href="images/pokeball.ico" type="image/x-icon">
 </head>
-<body>
-    <h1 id="website-title">POKEDEX</h1>
-    <div id="filter-and-sort">
-        <form id="pokemonFilter">
-            <input type="text" id="pokemonName" />
-        </form>
-        <select id="sortSelect">
+<body class="font-[Poppins] text-base leading-relaxed bg-white">
+    <h1 id="website-title" class="text-5xl p-5 font-semibold text-[#919191]">Pokedex</h1>
+    <div class="flex flex-row items-center bg-[#313131] gap-3">
+        <div id="filter-and-sort" class="flex flex-col justify-center  p-5 gap-2.5">
+            <h2 class="font-bold text-2xl text-white">Name or Number</h2>
+            <form id="pokemonFilter" class="flex justify-start gap-2">
+                <input type="text" id="pokemonName" class="px-3 py-1 text-center bg-white rounded border-3 border-[#616161]"/>
+                <button type="submit" class="bg-[#ee6b2f] text-white px-3 py-1 rounded"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+        <div class="bg-[#4dad5b] rounded px-3 py-5 h-auto">
+            <p class="text-white text-lg">Search for a pokemon by name or using its Pokedex number</p>
+        </div>
+    </div>
+    
+    <div class="flex justify-end m-2 gap-3">
+        <p class="text-xl font-semibold text-[#a4a4a4]">Sort By</p>
+        <select id="sortSelect" class="border rounded bg-[#313131] px-2 py-1 text-white">
             <option value="id-asc">ID: Low to High</option>
             <option value="id-desc">ID: High to Low</option>
             <option value="name-asc">Name: A-Z</option>
             <option value="name-desc">Name: Z-A</option>
         </select>
     </div>
-    <div id="root"></div>
-    <div id="loadMoreContainer">
-        <button id="loadMore">Load More</button>
+    <div id="root" class="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-4 p-4"></div>
+    <div id="loadMoreContainer" class="flex justify-center">
+        <button id="loadMore" class=" bg-[#30a7d7] px-3 py-1 rounded text-white">Load More Pokemon</button>
     </div>
     
 
-    <p id="iconsource">Pokemon go play game Icon by Mohammad Ali on <a href="https://icon-icons.com/authors/348-mohammad-ali">Icon-Icons.com</a></p>
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal">
-            <button class="modal-close" id="modalClose">X</button>
-            <img id="modalImg" src="" alt="">
-            <h2 id="modalName"></h2>
-            <p id="modalId"></p>
+    <p id="iconsource" class="text-gray-500 p-2 italic text-sm">*Pokemon go play game Icon by Mohammad Ali on <a class="text-[#333]" href="https://icon-icons.com/authors/348-mohammad-ali">Icon-Icons.com</a></p>
+    <div id="modalOverlay" class="hidden fixed inset-0 bg-black/60 z-50 flex justify-center items-center">
+        <div class="border-0 rounded-xl p-4 pb-16 w-[90%] max-w-125 text-center capitalize relative bg-gray-100 flex flex-col items-center">
+            <button class="absolute top-4 right-4 bg-transparent border-0 text-2xl cursor-pointer" id="modalClose">X</button>
+            <img id="modalImg" src="" alt="" class="w-50 h-50" >
+            <h2 id="modalName" class="text-xl mb-2 font-extrabold"></h2>
             <p id="modalTypes"></p>
             <p id="modalHeight"></p>
             <p id="modalWeight"></p>
-            <p id="modalStats"></p>
+            <p id="modalStats" class="whitespace-pre-line"></p>
             <p id="modalAbilities"></p>
             <p id="modalWeaknesses"></p>
-            <button class="back-modal" id="backModal">Back</button>
-            <button class="next-modal" id="nextModal">Next</button>
+            <button class="absolute bottom-4 left-4 bg-transparent border-0 text-2xl text-black cursor-pointer" id="backModal"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="absolute bottom-4 right-4 bg-transparent border-0 text-2xl text-black cursor-pointer" id="nextModal"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
     </div>
     <script src="js/main.js" defer></script>
